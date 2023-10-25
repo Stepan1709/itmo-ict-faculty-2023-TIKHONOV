@@ -10,62 +10,77 @@ Date of finished: 25.10.2023
 
 ---
 ## I - Подготовка ВМ на YandexCloud
-На облачном сервисе YandexCloud была сконфигурирована виртуальная машина:
-![рисунок1]()
-И приватный ключ (здесь не перечисляется в целях безопасности).
+На облачном сервисе `YandexCloud` была сконфигурирована виртуальная машина `Ubuntu 20.04`:
 
-Подключение осуществленно по средствам ssh. 
-> Заметка: при создании ключа из простого текстового файла ничего не получалось.
-необходимо сгенерировать любой приватный ключ и заменить его на выданый
+![рисунок1](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/VM.png)
+![рисунок2](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/settings.png)
 
-![рисунок1](https://user-images.githubusercontent.com/57321062/200135753-6ce56338-b892-4913-8f58-0a9560bd5c63.png)
+При создании на ВМ был загружен публичный SSH ключ, для дальнейшего подключения и работы с машиной.
+![рисунок3](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ssh_conect.jpg)
 
-Установил на машину `pip v22.3`.
-![рисунок2](https://user-images.githubusercontent.com/57321062/200135759-1603e830-82c0-4ff0-9595-04faeb131c7c.png)
+Далее установлены обновления, а также `python-pip`,` ansible` и `OpenVPN-server-as` (`openvpn-as`).
 
-Ansible, тоже.
-![рисунок3](https://user-images.githubusercontent.com/57321062/200135764-2273e599-df33-4a0e-b0e8-17017f88de61.png)
+`apt update`
 
-Было решено выбрать **OpenVPN сервер** и настраивать его через графический интерфейс. 
-> Заметка: не получилось установить openvpn с граф. интерфейсом на убунту 22 версии, поэтому она машина переустановлена на 20 версию.
+`apt upgrade`
 
-Перед началом работы обновлены все зависимости. Далее добавлена библиотека openvpn-as, чтобы получить доступ к графическому интерфейсу OVPN'а. Загружены все зависимости и запущен графический интерфейс, для OVPN.
-![рисунок4](https://user-images.githubusercontent.com/57321062/200135767-fe1891e9-996b-4c5b-ab16-bae9e6aa2d68.png)
+`apt install python3-pip`
 
-Далее через VirtualBox установлен `Mikrotik CHR`. При первом входе стоит пользователь admin без пароля, пароль изменен.
-![рисунок5](https://user-images.githubusercontent.com/57321062/200135773-d5b738f0-46a4-4ca9-82a5-c4a87a372ffc.png)
+`pip3 install ansible`
 
-Далее настроен графический интерфейс для Mikrotik'a через `winbox`. Сначала я проверил, активирована ли лицензия, затем в VirtualBox сменил адаптер сети для виртуальной машине на сетевой мост (чтобы Mikrotik был в зоне видимости), посмотрел ip Mikrotik'а, затем уже подключился к машине через winbox.
-![рисунок6](https://user-images.githubusercontent.com/57321062/200135780-90a0f905-14c3-44f9-8191-56ade3ef4a08.png)
+`apt install ca-certificates wget net-tools gnupg`
 
-> Заметка: стоит отметить, что это была одной из самых сложных частей, гайдов нигде не было, не понятно было как подключаться в первый раз.
+`wget -qO - https://as-repository.openvpn.net/as-repo-public.gpg | apt-key add -`
+
+`echo "deb http://as-repository.openvpn.net/as/debian focal main">/etc/apt/sources.list.d/openvpn-as-repo.list`
+
+`apt update`
+
+`apt install openvpn-as`
+
+![рисунок4](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ansible.jpg)
+
+Было решено выбрать **OpenVPN сервер**, чтобы настраивать его через графический интерфейс в браузере. 
+
+![рисунок5](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ovpn.jpg)
+
+Далее с помощью VirtualBox установлен `Mikrotik CHR`.
+
+![рисунок6](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/chr.jpg)
+
+После чего было настроено подключение между пк и `router-os` с помощью сетевого моста, также важно отметить, что было неразборчивый режим разрешал все.
+
+![рисунок7](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/bridge.jpg)
+
+Далее подключаемся через `winbox` к `router-os` и загружаем файл `ovpn`.
+
+![рисунок8](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ros_files.jpg)
 
 ## II - соединение
-Осталось только соединить `Mikrotik` и `OVPN сервер`. Для этого пороемся в настройках OVPN сервера, через уже установленый граф. интерфейс. Для начала отключена функция tls-auth, она не поддерживается Mikrotik'ом.
-![рисунок7](https://user-images.githubusercontent.com/57321062/200135782-1547813c-8a9b-472c-8c16-7277689f541a.png)
+Для успешного соединения был настроен **OVPN сервер**, был установлен режим `TCP-only` и отключен `TLS Control Channel Security`.
 
-По тому же принципу был сделан выбор на `протокол tcp`.
-![рисунок8](https://user-images.githubusercontent.com/57321062/200135788-c2715015-b204-405e-9c3a-db8c16a5f502.png)
+![рисунок9](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/tcp.jpg)
+![рисунок10](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/tls.jpg)
+![рисунок11](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/server_info.jpg)
 
-Далее был создан отдельный профиль для меня, в нем был создан профиль для клиента. 
-![рисунок9](https://user-images.githubusercontent.com/57321062/200135799-8b7ff84a-7f4c-4ef2-b92e-bf35f020b219.png)
+Затем был создан пользователь с возможностью `Autologin` и создан профиль для него, после создания профиля автоматически скачался `ovpn` файл. 
+Это файл был импортирован на микротик - из него сгенерированы сертификаты.
 
-Это файл был передан на микротик, из него сгенерированы сертификаты и получен ключ.
-![рисунок10](https://user-images.githubusercontent.com/57321062/200135809-b2febcdb-3f0a-44ed-a925-5f6e158b35b8.png)
+![рисунок12](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/user_prof.jpg)
+![рисунок13](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ovpn_certif.jpg)
 
-Ну и наконец таки создан `OVPN интерфейс`, через которые и создается тунель к серверу.
-> Заметка: вначале не получалось установить подключение, в итоге оказалось, что надо задать пароль новому пользователю и после этого обновить конфигурацию
+Далее был создан интерфейс `OVPN Client`, через который создается тоннель к серверу.
 
-![рисунок11](https://user-images.githubusercontent.com/57321062/200135815-860bf593-8f0d-4200-819a-e70815ebbd9b.png)
+![рисунок14](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ovpn_settings.jpg)
 
-Последним действием я проверю работоспособность моего тунеля.
+Последним действием была проверка на работоспособность тоннеля.
 
-![рисунок12](https://user-images.githubusercontent.com/57321062/200135823-9882d2b3-a052-4e00-859e-932e268b60c9.png)
+![рисунок15](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ovpn_status.jpg)
+![рисунок16](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ovpn_traffic.jpg)
 
 ## III - результаты
-1) Через графический интерфейс настроен `OVPN сервер`;
-2) Локально через VirtualBox поднят `Mikrotik CHR`;
-3) Создан туннель между ними.
+1) Создана и настроена ВМ на `YandexCloud`;
+2) Через графический интерфейс настроен `OVPN сервер`;
+3) Локально через `VirtualBox`+`WinBox` настроен `Mikrotik CHR`;
+4) Создан `OpenVPN` туннель между `Router-os` и `OVPN server`.
 
-> Заметка: добавлен скриншот с пингом сервера, для проверки соединения:
-> ![2022-11-21_18-59-49](https://user-images.githubusercontent.com/57321062/203101300-5b61ad76-2990-46df-bd60-060435021811.png)
