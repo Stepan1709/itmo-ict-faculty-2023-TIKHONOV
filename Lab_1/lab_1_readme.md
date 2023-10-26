@@ -78,6 +78,11 @@ Date of finished: 25.10.2023
 ![рисунок15](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ovpn_status.jpg)
 ![рисунок16](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ovpn_traffic.jpg)
 
+Также была проверена возможность ping с сервера, на роутер, для этого сначала на сервере смотрим ip адрес роутера, а затем ping-уем его.
+
+![рисунок17](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/active_user.jpg)
+![рисунок18](https://github.com/Stepan1709/itmo-ict-faculty-2023-TIKHONOV/blob/master/Lab_1/screens/ping__to_user.jpg)
+
 ## III - результаты
 1) Создана и настроена ВМ на `YandexCloud`;
 2) Через графический интерфейс настроен `OVPN сервер`;
