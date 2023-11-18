@@ -1,0 +1,19 @@
+---
+- name:  CHR setting
+  hosts: chr-group
+  tasks:
+    - name: Login and password
+      routeros_command:
+        commands: /user add name=stepan password=stepan
+                  /user print
+
+    - name: Create NTP client
+      routeros_command:
+        commands: /system ntp client set enabled=yes server=0.ru.pool.ntp.org
+        
+    # - name: OSPF with router ID
+
+    - name: Get facts
+      routeros_facts:
+        gather_subset:
+          - config
