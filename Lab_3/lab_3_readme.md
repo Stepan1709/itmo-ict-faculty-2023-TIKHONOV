@@ -203,5 +203,9 @@ ansible-playbook -i inventory ansible-playbook_2.yml
 
 ![ping](./screens/ping.png)
 
+Схема системы:
+
+![schema](./screens/schema.png)
+
 ## Вывод:
 В результате выполнения работы, с помощью Ansible, были настроены 2 роутера, создан файл inventory, и собрана информацию о настроенных роутерах.
