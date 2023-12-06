@@ -1,0 +1,23 @@
+- name: Get Serial Numbers
+  hosts: ungrouped
+  tasks:
+
+    - name: "Get Serial Number"
+      community.routeros.command:
+        commands:
+          - /system license print
+      register: license
+
+    - name: "Get Name"
+      community.routeros.command:
+        commands:
+          - /system identity print
+      register: identity
+
+    - name: Add Serial Number to Netbox
+      netbox_device:
+        netbox_url: http://127.0.0.1:8000
+        netbox_token: 1ef9042ee515f716bdad25fe37e4ed531d38c097
+        data:
+          name: "{{ identity.stdout_lines[0][0].split()[1] }}"
+          serial: "{{ license.stdout_lines[0][0].split()[1] }}"

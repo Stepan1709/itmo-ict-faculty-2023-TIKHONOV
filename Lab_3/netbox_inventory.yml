@@ -1,0 +1,215 @@
+all:
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: community.routeros.routeros
+    ansible_user: admin
+    ansible_ssh_pass: 12345
+  children:
+    ungrouped:
+      hosts:
+        CHR1:
+          ansible_host: 10.0.0.11
+          custom_fields: {}
+          device_roles:
+          - router
+          device_types:
+          - router
+          interfaces:
+          - _occupied: false
+            bridge: null
+            cable: null
+            cable_end: ''
+            connected_endpoints: null
+            connected_endpoints_reachable: null
+            connected_endpoints_type: null
+            count_fhrp_groups: 0
+            count_ipaddresses: 1
+            created: '2023-12-05T18:38:54.978815Z'
+            custom_fields: {}
+            description: ''
+            device:
+              display: CHR1
+              id: 1
+              name: CHR1
+              url: http://127.0.0.1:8000/api/dcim/devices/1/
+            display: vpn
+            duplex: null
+            enabled: true
+            id: 1
+            ip_addresses:
+            - address: 10.0.0.11/20
+              comments: ''
+              created: '2023-12-05T18:01:51.885841Z'
+              custom_fields: {}
+              description: ''
+              display: 10.0.0.11/20
+              dns_name: ''
+              family:
+                label: IPv4
+                value: 4
+              id: 1
+              last_updated: '2023-12-05T18:39:50.147986Z'
+              nat_inside: null
+              nat_outside: []
+              role: null
+              status:
+                label: Active
+                value: active
+              tags: []
+              tenant: null
+              url: http://127.0.0.1:8000/api/ipam/ip-addresses/1/
+              vrf: null
+            l2vpn_termination: null
+            label: ''
+            lag: null
+            last_updated: '2023-12-05T18:38:54.978835Z'
+            link_peers: []
+            link_peers_type: null
+            mac_address: null
+            mark_connected: false
+            mgmt_only: false
+            mode: null
+            module: null
+            mtu: null
+            name: vpn
+            parent: null
+            poe_mode: null
+            poe_type: null
+            rf_channel: null
+            rf_channel_frequency: null
+            rf_channel_width: null
+            rf_role: null
+            speed: null
+            tagged_vlans: []
+            tags: []
+            tx_power: null
+            type:
+              label: Virtual
+              value: virtual
+            untagged_vlan: null
+            url: http://127.0.0.1:8000/api/dcim/interfaces/1/
+            vdcs: []
+            vrf: null
+            wireless_lans: []
+            wireless_link: null
+            wwn: null
+          is_virtual: false
+          local_context_data:
+          - null
+          locations: []
+          manufacturers:
+          - test_m
+          primary_ip4: 10.0.0.11
+          regions: []
+          serial: ''
+          services: []
+          site_groups: []
+          sites:
+          - test
+          status:
+            label: Active
+            value: active
+          tags: []
+        CHR2:
+          ansible_host: 10.0.0.12
+          custom_fields: {}
+          device_roles:
+          - router
+          device_types:
+          - router
+          interfaces:
+          - _occupied: false
+            bridge: null
+            cable: null
+            cable_end: ''
+            connected_endpoints: null
+            connected_endpoints_reachable: null
+            connected_endpoints_type: null
+            count_fhrp_groups: 0
+            count_ipaddresses: 1
+            created: '2023-12-05T18:39:21.942561Z'
+            custom_fields: {}
+            description: ''
+            device:
+              display: CHR2
+              id: 2
+              name: CHR2
+              url: http://127.0.0.1:8000/api/dcim/devices/2/
+            display: vpn2
+            duplex: null
+            enabled: true
+            id: 2
+            ip_addresses:
+            - address: 10.0.0.12/20
+              comments: ''
+              created: '2023-12-05T18:02:11.645553Z'
+              custom_fields: {}
+              description: ''
+              display: 10.0.0.12/20
+              dns_name: ''
+              family:
+                label: IPv4
+                value: 4
+              id: 2
+              last_updated: '2023-12-05T18:40:23.017397Z'
+              nat_inside: null
+              nat_outside: []
+              role: null
+              status:
+                label: Active
+                value: active
+              tags: []
+              tenant: null
+              url: http://127.0.0.1:8000/api/ipam/ip-addresses/2/
+              vrf: null
+            l2vpn_termination: null
+            label: ''
+            lag: null
+            last_updated: '2023-12-05T18:39:21.942581Z'
+            link_peers: []
+            link_peers_type: null
+            mac_address: null
+            mark_connected: false
+            mgmt_only: false
+            mode: null
+            module: null
+            mtu: null
+            name: vpn2
+            parent: null
+            poe_mode: null
+            poe_type: null
+            rf_channel: null
+            rf_channel_frequency: null
+            rf_channel_width: null
+            rf_role: null
+            speed: null
+            tagged_vlans: []
+            tags: []
+            tx_power: null
+            type:
+              label: Virtual
+              value: virtual
+            untagged_vlan: null
+            url: http://127.0.0.1:8000/api/dcim/interfaces/2/
+            vdcs: []
+            vrf: null
+            wireless_lans: []
+            wireless_link: null
+            wwn: null
+          is_virtual: false
+          local_context_data:
+          - null
+          locations: []
+          manufacturers:
+          - test_m
+          primary_ip4: 10.0.0.12
+          regions: []
+          serial: ''
+          services: []
+          site_groups: []
+          sites:
+          - test
+          status:
+            label: Active
+            value: active
+          tags: []

@@ -1,0 +1,13 @@
+---
+- name: Setup Routers
+  hosts: ungrouped
+  tasks:
+    - name: "Change names of devicies"
+      community.routeros.command:
+        commands:
+          - /system identity set name="{{ interfaces[0].device.name }}"
+
+    - name: "Change IP-address"
+      community.routeros.command:
+        commands:
+          - /ip address add address="{{ interfaces[0].ip_addresses[0].address }}" interface="{{ interfaces[0].display }}"
